@@ -6,34 +6,15 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! textobj#forward#select_i()
-  return s:select('i')
+" 文字が入力された場合にタイマーをリセットする関数
+function! autosave#timer(timer, time)
+  call timer_stop(a:timer)
+  let s:smile_timer = timer_start(a:time, 'ShowSmile')
 endfunction
 
-function! textobj#forward#select_a()
-  return s:select('a')
-endfunction
-
-function! s:select(flag)
-  try
-    let start = getpos('.')
-
-    if a:flag == 'i'
-      let pat = '\V\((\|<\|{\|[\|,\|;\)'
-    else
-      let pat = '\V\( \|''\|/\||\)'
-    endif
-
-    for i in range(v:count1)
-      if !search(pat, 'W')
-        return 0
-      endif
-    endfor
-    let end = getpos('.')
-    let end[2] -= 1
-    echom string(end)
-    return ['v', start, end]
-  endtry
+" スマイルコマンドを実行する関数
+function! autosave#showsmile(timer)
+  smile
 endfunction
 
 let &cpo = s:save_cpo
