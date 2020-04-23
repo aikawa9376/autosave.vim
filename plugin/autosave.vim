@@ -31,6 +31,7 @@ augroup autosave
   autocmd BufLeave * call autosave#timer(0)
 augroup END
 
+command! AutoSaveToggle call autosave#toggle()
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

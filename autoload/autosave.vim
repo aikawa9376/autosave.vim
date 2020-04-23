@@ -23,5 +23,13 @@ function! autosave#dosave(timer)
   endif
 endfunction
 
+function! autosave#toggle() abort
+  if g:autosave_enable == 1
+    let g:autosave_enable = 0
+  else
+    let g:autosave_enable = 1
+  endif
+endfunction
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
