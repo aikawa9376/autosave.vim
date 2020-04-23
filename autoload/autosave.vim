@@ -6,15 +6,21 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" 文字が入力された場合にタイマーをリセットする関数
-function! autosave#timer(timer, time)
-  call timer_stop(a:timer)
-  let s:smile_timer = timer_start(a:time, 'ShowSmile')
+let s:save_timer = 0
+
+function! autosave#timer(time)
+  if g:autosave_enable 
+    if s:save_timer
+      call timer_stop(s:save_timer)
+    endif
+    let s:save_timer = timer_start(a:time, 'autosave#dosave')
+  endif
 endfunction
 
-" スマイルコマンドを実行する関数
-function! autosave#showsmile(timer)
-  smile
+function! autosave#dosave(timer)
+  if filewritable(expand('%')) && bufname() != ''
+    write
+  endif
 endfunction
 
 let &cpo = s:save_cpo

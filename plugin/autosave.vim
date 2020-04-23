@@ -11,15 +11,24 @@ let g:loaded_autosave = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-" “一定時間” の指定（単位はミリ秒）
-let s:smile_time = 10000
+function! s:set(var, default)
+  if !exists(a:var)
+    if type(a:default)
+      execute 'let' a:var '=' string(a:default)
+    else
+      execute 'let' a:var '=' a:default
+    endif
+  endif
+endfunction
+
+call s:set('g:autosave_save_time', 3000 )
+call s:set('g:autosave_enable', 1 )
 
 augroup autosave
   autocmd!
-  " インサートモードに入って s:smile_time が経過したら ShowSmile() を実行
-  autocmd InsertEnter * let s:smile_timer = timer_start(s:smile_time, 'autosave#showsmile')
-  " 入力があったら UpdateSmileTimer() を実行
-  autocmd InsertCharPre * call autosave#timer(s:smile_timer)
+  autocmd TextChanged * call autosave#timer(g:autosave_save_time)
+  autocmd TextChangedI * call autosave#timer(g:autosave_save_time)
+  autocmd BufLeave * call autosave#timer(0)
 augroup END
 
 
