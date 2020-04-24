@@ -1,5 +1,5 @@
-" textobj-forward - Text objects for a range forward a character.
-" Version: 0.2.0
+" autosave.vim
+" Version: 0.1.0
 " Author : aikawa 
 " License: zlib License
 
