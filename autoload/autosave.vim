@@ -18,7 +18,18 @@ function! autosave#timer(time)
 endfunction
 
 function! autosave#dosave(timer)
-  if filewritable(expand('%')) && bufname() != ''
+  if filewritable(expand('%'))
+        \  && bufname() != '' && &modified
+    write
+  endif
+endfunction
+
+function! autosave#manual()
+  if s:save_timer
+    call timer_stop(s:save_timer)
+  endif
+  if filewritable(expand('%'))
+        \  && bufname() != '' && &modified
     write
   endif
 endfunction
