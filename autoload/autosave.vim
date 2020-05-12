@@ -9,7 +9,8 @@ set cpo&vim
 let s:save_timer = 0
 
 function! autosave#timer(time)
-  if g:autosave_enable 
+  if g:autosave_enable && filewritable(expand('%'))
+        \  && bufname() != '' && &modified
     if s:save_timer
       call timer_stop(s:save_timer)
     endif
@@ -18,8 +19,7 @@ function! autosave#timer(time)
 endfunction
 
 function! autosave#dosave(timer)
-  if filewritable(expand('%'))
-        \  && bufname() != '' && &modified
+  if !pumvisible()
     write
   endif
 endfunction
@@ -28,7 +28,7 @@ function! autosave#manual()
   if s:save_timer
     call timer_stop(s:save_timer)
   endif
-  if filewritable(expand('%'))
+  if g:autosave_enable && filewritable(expand('%'))
         \  && bufname() != '' && &modified
     write
   endif
