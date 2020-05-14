@@ -19,7 +19,7 @@ function! autosave#timer(time)
 endfunction
 
 function! autosave#dosave(timer)
-  if !pumvisible()
+  if !pumvisible() && &buftype != 'terminal'
     write
   endif
 endfunction
