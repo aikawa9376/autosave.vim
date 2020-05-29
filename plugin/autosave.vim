@@ -26,8 +26,8 @@ call s:set('g:autosave_enable', 1 )
 
 augroup autosave
   autocmd!
-  autocmd TextChanged,TextChangedI * call autosave#timer(g:autosave_save_time)
-  autocmd BufLeave,BufDelete,BufWipeout * call autosave#manual()
+  autocmd TextChanged * call autosave#timer(g:autosave_save_time)
+  autocmd BufLeave,BufDelete,BufWipeout,InsertLeave * call autosave#manual()
 augroup END
 
 command! AutoSaveToggle call autosave#toggle()
